@@ -1,5 +1,7 @@
 package org.eclipse.jetty.spdy;
 
+import org.eclipse.jetty.server.Request;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -13,6 +15,11 @@ public class SlowImageServlet extends HttpServlet
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
     {
+        Request r = Request.getBaseRequest(request);
+        System.out.println(r);
+        System.out.println(r.getPushBuilder());
+
+
         response.addHeader("Cache-control", "no-store, no-cache, must-revalidate");
         response.addDateHeader("Last-Modified", 0);
         response.addDateHeader("Expires", 0);

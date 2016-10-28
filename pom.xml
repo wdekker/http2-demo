@@ -13,7 +13,7 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <jetty-version>9.3.7.v20160115</jetty-version>
-        <alpn-version>8.1.7.v20160121</alpn-version>
+        <alpn-version>8.1.9.v20160720</alpn-version>
         <slf4j-version>1.7.12</slf4j-version>
     </properties>
 
@@ -48,11 +48,14 @@
                     <jvmArgs>
                         -Dlog4j.configuration=file://${basedir}/src/main/resources/log4j.properties
                         -Xbootclasspath/p:${settings.localRepository}/org/mortbay/jetty/alpn/alpn-boot/${alpn-version}/alpn-boot-${alpn-version}.jar
+                        -Dorg.eclipse.jetty.server.webapp.parentLoaderPriority=true
+                        -Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=8000
                     </jvmArgs>
                     <jettyXml>${basedir}/src/main/config/jetty-http2.xml</jettyXml>
                     <webApp>
                         <contextPath>/</contextPath>
                     </webApp>
+                    <contextXml>${basedir}/src/main/webapp/WEB-INF/jetty-web.xml</contextXml>
                 </configuration>
                 <dependencies>
                     <dependency>
@@ -91,8 +94,15 @@
             <groupId>org.mortbay.jetty.alpn</groupId>
             <artifactId>alpn-boot</artifactId>
             <version>${alpn-version}</version>
-            <scope>runtime</scope>
+            <scope>provided</scope>
         </dependency>
+        <dependency>
+            <groupId>org.eclipse.jetty.http2</groupId>
+            <artifactId>http2-server</artifactId>
+            <version>${jetty-version}</version>
+            <scope>provided</scope>
+        </dependency>
+
     </dependencies>
 
 </project>
